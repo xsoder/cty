@@ -1,29 +1,46 @@
-#include <stdio.h>
-#include <stdint.h>
 #include "raylib.h"
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+static const char *font_name = "Iosevka-Regular.ttf";
+static const char *title = "CTY";
+static char *shell = "/bin/bash";
+static int font_size = 40;
 
 typedef struct {
-  uint32_t rows = 20;
-  uint32_t cols = 80;
+  int width;
+  int height;
+} Ui;
+typedef struct {
+  uint32_t rows;
+  uint32_t cols;
 } Region;
 
 static Region region;
 
 int main(void) {
-  int posX = 10;
-  int posY = 10;
-  int width = 200;
-  int height = 100; 
-  const char *fileName = "Iosevka";
-  LoadFont(fileName); 
+  Region region = {0};
+  region.rows = 20;
+  region.cols = 20;
 
-  const char *title = "CTY";
-  InitWindow(800, 600, title);
+  Vector2 position = {0};
+  Ui ui = {0};
+  position.x = (float)region.rows;
+  position.y = (float)region.cols;
+  ui.width = 800;
+  ui.height = 600;
+  InitWindow(ui.width, ui.height, title);
+  Font font = LoadFont(font_name);
   while (!WindowShouldClose()) {
+    if (!IsWindowMaximized())
+      MaximizeWindow();
     BeginDrawing();
     ClearBackground(BLACK);
-    DrawText(const char *text, int posX, int posY, int fontSize, Color color);
-    DrawRectangle(posX, posY,  width, height, WHITE);
+    DrawTextEx(font, shell, position, (float)font_size, 0.5f, WHITE);
     EndDrawing();
   }
 }
