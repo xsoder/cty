@@ -6,4 +6,3 @@ main: cty.c
 	$(CC) $(CFLAGS) -o main cty.c $(LDFLAGS)
 clean:
 	rm -f main
-
